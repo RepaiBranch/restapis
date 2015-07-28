@@ -5,7 +5,7 @@ import com.yammer.dropwizard.config.Bootstrap;
 import com.yammer.dropwizard.config.Environment;
 import com.yammer.dropwizard.jdbi.DBIFactory;  
 
-import controller.RBServiceExecController;
+import controller.RBHealthCheck;
 import model.SqlQueries;
 
 import org.skife.jdbi.v2.DBI;
@@ -28,7 +28,7 @@ public class RBService extends Service<RBConfiguration>{
 		final DBIFactory factory = new DBIFactory();
         final DBI jdbi = factory.build(environment, configuration.getDatabaseConfiguration(), "mysql");
         final SqlQueries dao = jdbi.onDemand(SqlQueries.class);
-        environment.addResource(new RBServiceExecController(dao));		
+        environment.addResource(new RBHealthCheck(dao));		
 	}
 
 }

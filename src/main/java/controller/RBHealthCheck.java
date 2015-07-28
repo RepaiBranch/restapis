@@ -3,6 +3,7 @@ package controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.Cookie;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -14,13 +15,13 @@ import javax.ws.rs.core.Response;
 
 import model.SqlQueries;
 
-@Path("/")
-public class RBServiceExecController {
+@Path("/healthCheck/")
+public class RBHealthCheck {
 
 	 private SqlQueries _sqlDao;
      private static final int threadPoolSize = 10;
 
-     public RBServiceExecController(SqlQueries dao) {
+     public RBHealthCheck(SqlQueries dao) {
          _sqlDao = dao;
      }
      
@@ -39,7 +40,7 @@ public class RBServiceExecController {
      }
      
      @POST
-     @Path("call/post")
+     @Path("post")
      @Consumes(value = MediaType.APPLICATION_JSON)
      public Response postUserData() {
          try {
@@ -50,6 +51,8 @@ public class RBServiceExecController {
          }
          return Response.ok("200").header("Access-Control-Allow-Origin", "*").build();
      }
+     
+   
      
      
      
