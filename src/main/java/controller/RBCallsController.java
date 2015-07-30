@@ -3,14 +3,20 @@ package controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.eclipse.jetty.http.HttpStatus;
+
+import vos.CallAssignVO;
 import vos.CallVO;
+import vos.CompleteCallVO;
 import model.SqlQueries;
 
 @Path("/calls/")
@@ -35,6 +41,34 @@ public class RBCallsController
         return Response.ok(callsVoList).header("Access-Control-Allow-Origin", "*").build();
 
     }
+    
+    // This method will ensure that a portal can be setup where a user can create calls directly
+    // this portal is to be managed by the service centre executive to begin with.
+    @POST
+    @Path("rest/create")
+    @Consumes(value = MediaType.APPLICATION_JSON)
+    @Produces(value = MediaType.APPLICATION_JSON)
+    public Response createCall(CompleteCallVO comCallVO) {
+    	int callId = 0;
+    	
+    	try
+    	{
+    	    callId = createComCall(comCallVO);
+    	}
+    	catch (Exception exc)
+    	{
+    		return Response.ok(HttpStatus.INTERNAL_SERVER_ERROR_500).header("Access-Control-Allow-Origin", "*").build();
+    	}
+    	
+        return Response.ok(callId).header("Access-Control-Allow-Origin", "*").build();
+
+    }
+    
+
+	private int createComCall(CompleteCallVO comCallVO) {
+		// TODO Auto-generated method stub
+		return 1;
+	}
 
 	private List<CallVO> getUserIdCalls(int servId, String latitude,
 			String longitude) {
